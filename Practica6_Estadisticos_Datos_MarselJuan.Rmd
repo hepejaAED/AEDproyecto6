@@ -98,7 +98,7 @@ df<-read_tsv(Datos) %>% mutate(across(ends_with(".cat"),as.factor))
 Inspecciona visualmente los valores del conjunto de datos (`View`) y ordena de mayor a menor y de menor a mayor cada variable.
 
 ```{r Solucion_Ej2, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
-
+# View(df)
 ```
 
 # Análisis univariante de variables numéricas
@@ -154,6 +154,10 @@ df %>%
 Compara la distribución de probabilidad de las notas de la asignatura ANM con la de una Gaussiana empleando la función `qqPlot` (quantile-quantile plot) de la librería `car`, que representa gráficamente los cuantiles de la distribución analizada respecto de los de una distribución normal (Gaussiana).
 
 ```{r Solucion_Ej5, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+library(car)
+valores <- df %>% pivot_longer(cols = ends_with('.num'), names_to = 'asignatura', values_to = 'valor')%>%filter(asignatura == "ANM.num")
+
+qqPlot(valores$valor)
 
 ```
 
@@ -170,6 +174,8 @@ Vamos a calcular la frecuencia de cada valor en las variables categóricas de ca
 ```{r Solucion_Ej6, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 
 
+
+
 ```
 
 # Análisis bivariante de variables numéricas
@@ -180,7 +186,9 @@ Vamos a calcular la frecuencia de cada valor en las variables categóricas de ca
   * Compara los resultados para el coeficiente de correlación de Pearson (para variables numéricas) y de Spearman (para variables numéricas ordinales).
 
 ```{r Solucion_Ej7, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+df %>% select(ends_with(".num")) %>% cor(use="complete.obs",method="pearson")
 
+df %>% select(ends_with(".num")) %>% cor(use="complete.obs",method="spearman")
 ```
 
 La correlación de Pearson sirve para cuando la relación entre dos variables es lineal, mientras que la de Spearman es robusta frente a relaciones no lineales en datos ordenados.
